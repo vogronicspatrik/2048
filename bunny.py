@@ -5,19 +5,9 @@ screen.keypad(1)
 win = curses.newwin(24, 80, 0, 0)
 curses.noecho()
 curses.curs_set(0)
-#curses.color_pair(1)
 win.border(1)
 
-#curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
-#win.addstr(0,0, "RED ALERT!", curses.color_pair(1))
-
-#win.addstr("Pretty text", curses.color_pair(1))
-#win.refresh()
-
-
-
 #Game Initialization
-
 
 import random
 khopi_attempt = 0
@@ -238,7 +228,6 @@ while True:
     win.addstr(13, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
     win.addstr(18, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
 
-
     win.addstr(3, 18, str(game_box[0][0]) + "\t\t" + str(game_box[0][1]) + "\t\t" + str(game_box[0][2]) + "\t\t" + str(game_box[0][3]))
     win.addstr(8, 18, str(game_box[1][0]) + "\t\t" + str(game_box[1][1]) + "\t\t" + str(game_box[1][2]) + "\t\t" + str(game_box[1][3]))
     win.addstr(13, 18, str(game_box[2][0]) + "\t\t" + str(game_box[2][1]) + "\t\t" + str(game_box[2][2]) + "\t\t" + str(game_box[2][3]))
@@ -284,9 +273,5 @@ while True:
         game_box[row_to_place_entry][column_to_place_entry] = 2
 
 win.addstr("Congratulations!! You scored " + str(points) + "points")
-
-
-
-
 
 curses.endwin()
