@@ -5,7 +5,17 @@ screen.keypad(1)
 win = curses.newwin(24, 80, 0, 0)
 curses.noecho()
 curses.curs_set(0)
-win.border(0)
+#curses.color_pair(1)
+win.border(1)
+
+#curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
+#win.addstr(0,0, "RED ALERT!", curses.color_pair(1))
+
+#win.addstr("Pretty text", curses.color_pair(1))
+#win.refresh()
+
+
+
 #Game Initialization
 
 
@@ -215,21 +225,24 @@ def right_addition(game_box):
             game_box[i][j]=0
 
 
-
-
-
-
-
-
-
 while True:
-    win.addstr(0, 0, ("Points>>>>>>"))
-    win.addstr(1, 0, (str(points)))
+    win.refresh()
+    win.border(0)
+    win.addstr(1, 1, ("Points>>>>>>"))
+    win.addstr(2, 1, (str(points)))
+    win.addstr(1, 55, "Press BACKSPACE to exit")
+    win.addstr(22 ,71, "CODECOOL")
+
+    win.addstr(3, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
+    win.addstr(8, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
+    win.addstr(13, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
+    win.addstr(18, 18, str("    ") + "\t\t" + str("    ") + "\t\t" + str("    ") + "\t\t" + str("    "))
+
+
     win.addstr(3, 18, str(game_box[0][0]) + "\t\t" + str(game_box[0][1]) + "\t\t" + str(game_box[0][2]) + "\t\t" + str(game_box[0][3]))
     win.addstr(8, 18, str(game_box[1][0]) + "\t\t" + str(game_box[1][1]) + "\t\t" + str(game_box[1][2]) + "\t\t" + str(game_box[1][3]))
     win.addstr(13, 18, str(game_box[2][0]) + "\t\t" + str(game_box[2][1]) + "\t\t" + str(game_box[2][2]) + "\t\t" + str(game_box[2][3]))
     win.addstr(18, 18, str(game_box[3][0]) + "\t\t" + str(game_box[3][1]) + "\t\t" + str(game_box[3][2]) + "\t\t" + str(game_box[3][3]))
-    win.refresh()
 
     action = screen.getch()
     if action == curses.KEY_UP:
@@ -244,6 +257,9 @@ while True:
     elif action == curses.KEY_RIGHT:
         right_movement(game_box)
         right_addition(game_box)
+    elif action == curses.KEY_BACKSPACE:
+        curses.endwin()
+        exit()
     else:
         khopi_attempt += 1
         continue
@@ -255,7 +271,7 @@ while True:
                 row_indexes_with_zero.append(i)
                 column_indexes_with_zero.append(j)
             if game_box[i][j] == 2048:
-                print ("Congratulations!! You've successfully sumed up a 2048 tile")
+                win.addstr("Congratulations!! You've successfully sumed up a 2048 tile")
                 break
     if len(row_indexes_with_zero) > 1:
         random_index = row_indexes_with_zero.index(random.choice(row_indexes_with_zero))
@@ -266,13 +282,8 @@ while True:
         row_to_place_entry = row_indexes_with_zero[0]
         column_to_place_entry = column_indexes_with_zero[0]
         game_box[row_to_place_entry][column_to_place_entry] = 2
-    else:
-        break
 
-print ("Congratulations!! You scored ", str(points), "points")
-print ("\n\n")
-print ("Total Khopi Attempt >>>>>", str(khopi_attempt))
-
+win.addstr("Congratulations!! You scored " + str(points) + "points")
 
 
 
