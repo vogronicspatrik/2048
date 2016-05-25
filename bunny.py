@@ -10,15 +10,21 @@ if os.path.exists("highscore.txt"):
     score.close()
 
 
-def border():
-    win.border("+", "+", "+", "+", "+", "+", "+", "+")
-
-
 screen = curses.initscr()
+curses.start_color()
 screen.keypad(1)
 win = curses.newwin(24, 80, 0, 0)
 curses.noecho()
 curses.curs_set(0)
+curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+
+
+def border():
+    win.attrset(curses.color_pair(2))
+    win.border("@", "@", "@", "@", "@", "@", "@", "@")
+
 
 # Game Initialization
 
@@ -241,19 +247,19 @@ def right_addition(game_box):
 while True:
     win.refresh()
     border()
-    win.addstr(1, 1, ("Points>>>>>>"))
-    win.addstr(2, 1, (str(points)))
-    win.addstr(3, 1, ("Highscore:"))
+    win.addstr(1, 1, ("Points>>>>>>"), curses.color_pair(3))
+    win.addstr(2, 1, (str(points)), curses.color_pair(3))
+    win.addstr(3, 1, ("Highscore:"), curses.color_pair(3))
     if int(highscore) > int(points):
-        win.addstr(4, 1, (str(highscore)))
+        win.addstr(4, 1, (str(highscore)), curses.color_pair(3))
     else:
         win.addstr(4, 1, "                   ")
-        win.addstr(4, 1, (str(points)))
+        win.addstr(4, 1, (str(points)), curses.color_pair(3))
         score = open("highscore.txt", "w+")
         score.write(str(points))
         score.close()
-    win.addstr(1, 55, "Press BACKSPACE to exit")
-    win.addstr(22, 71, "CODECOOL")
+    win.addstr(1, 55, "Press BACKSPACE to exit", curses.color_pair(3))
+    win.addstr(22, 71, "CODECOOL", curses.color_pair(3))
 
     win.addstr(3, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
                str("    ") + "\t\t" + str("    "))
@@ -265,13 +271,17 @@ while True:
                str("    ") + "\t\t" + str("    "))
 
     win.addstr(3, 18, str(game_box[0][0]) + "\t\t" + str(game_box[0][1]) +
-               "\t\t" + str(game_box[0][2]) + "\t\t" + str(game_box[0][3]))
+               "\t\t" + str(game_box[0][2]) + "\t\t" + str(game_box[0][3]),
+               curses.color_pair(1))
     win.addstr(9, 18, str(game_box[1][0]) + "\t\t" + str(game_box[1][1]) +
-               "\t\t" + str(game_box[1][2]) + "\t\t" + str(game_box[1][3]))
+               "\t\t" + str(game_box[1][2]) + "\t\t" + str(game_box[1][3]),
+               curses.color_pair(1))
     win.addstr(15, 18, str(game_box[2][0]) + "\t\t" + str(game_box[2][1]) +
-               "\t\t" + str(game_box[2][2]) + "\t\t" + str(game_box[2][3]))
+               "\t\t" + str(game_box[2][2]) + "\t\t" + str(game_box[2][3]),
+               curses.color_pair(1))
     win.addstr(21, 18, str(game_box[3][0]) + "\t\t" + str(game_box[3][1]) +
-               "\t\t" + str(game_box[3][2]) + "\t\t" + str(game_box[3][3]))
+               "\t\t" + str(game_box[3][2]) + "\t\t" + str(game_box[3][3]),
+               curses.color_pair(1))
 
     action = screen.getch()
     if action == curses.KEY_UP:
