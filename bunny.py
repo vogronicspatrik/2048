@@ -1,13 +1,24 @@
 import curses
 import random
+import os
+
+highscore = 0
+
+if os.path.exists("highscore.txt"):
+    score = open("highscore.txt", "r")
+    highscore = score.readlines()[0].strip()
+    score.close()
+
+
+def border():
+    win.border("+", "+", "+", "+", "+", "+", "+", "+")
+
 
 screen = curses.initscr()
 screen.keypad(1)
 win = curses.newwin(24, 80, 0, 0)
 curses.noecho()
 curses.curs_set(0)
-win.border(1)
-
 
 # Game Initialization
 
@@ -227,31 +238,39 @@ def right_addition(game_box):
             points += game_box[i][j+1] ** 2
             game_box[i][j] = 0
 
-
 while True:
     win.refresh()
-    win.border(0)
+    border()
     win.addstr(1, 1, ("Points>>>>>>"))
     win.addstr(2, 1, (str(points)))
+    win.addstr(3, 1, ("Highscore:"))
+    if int(highscore) > int(points):
+        win.addstr(4, 1, (str(highscore)))
+    else:
+        win.addstr(4, 1, "                   ")
+        win.addstr(4, 1, (str(points)))
+        score = open("highscore.txt", "w+")
+        score.write(str(points))
+        score.close()
     win.addstr(1, 55, "Press BACKSPACE to exit")
     win.addstr(22, 71, "CODECOOL")
 
     win.addstr(3, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
                str("    ") + "\t\t" + str("    "))
-    win.addstr(8, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
+    win.addstr(9, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
                str("    ") + "\t\t" + str("    "))
-    win.addstr(13, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
+    win.addstr(15, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
                str("    ") + "\t\t" + str("    "))
-    win.addstr(18, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
+    win.addstr(21, 18, str("    ") + "\t\t" + str("    ") + "\t\t" +
                str("    ") + "\t\t" + str("    "))
 
     win.addstr(3, 18, str(game_box[0][0]) + "\t\t" + str(game_box[0][1]) +
                "\t\t" + str(game_box[0][2]) + "\t\t" + str(game_box[0][3]))
-    win.addstr(8, 18, str(game_box[1][0]) + "\t\t" + str(game_box[1][1]) +
+    win.addstr(9, 18, str(game_box[1][0]) + "\t\t" + str(game_box[1][1]) +
                "\t\t" + str(game_box[1][2]) + "\t\t" + str(game_box[1][3]))
-    win.addstr(13, 18, str(game_box[2][0]) + "\t\t" + str(game_box[2][1]) +
+    win.addstr(15, 18, str(game_box[2][0]) + "\t\t" + str(game_box[2][1]) +
                "\t\t" + str(game_box[2][2]) + "\t\t" + str(game_box[2][3]))
-    win.addstr(18, 18, str(game_box[3][0]) + "\t\t" + str(game_box[3][1]) +
+    win.addstr(21, 18, str(game_box[3][0]) + "\t\t" + str(game_box[3][1]) +
                "\t\t" + str(game_box[3][2]) + "\t\t" + str(game_box[3][3]))
 
     action = screen.getch()
@@ -294,6 +313,7 @@ while True:
         row_to_place_entry = row_indexes_with_zero[0]
         column_to_place_entry = column_indexes_with_zero[0]
         game_box[row_to_place_entry][column_to_place_entry] = 2
+
 
 win.addstr("Congratulations!! You scored " + str(points) + "points")
 
