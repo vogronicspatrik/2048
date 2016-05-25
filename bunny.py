@@ -8,6 +8,7 @@ curses.noecho()
 curses.curs_set(0)
 win.border(1)
 
+
 # Game Initialization
 
 khopi_attempt = 0
